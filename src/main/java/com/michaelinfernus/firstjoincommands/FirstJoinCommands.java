@@ -21,6 +21,8 @@ public final class FirstJoinCommands extends JavaPlugin implements Listener, Com
     @Override
     public void onEnable() {
         // Plugin startup logic
+        loadConfig();
+        this.getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("FirstJoinCommand").setExecutor(this);
     }
 
@@ -63,6 +65,7 @@ public final class FirstJoinCommands extends JavaPlugin implements Listener, Com
         Player player = e.getPlayer();
         if(!player.hasPlayedBefore()) {
             for(String command : commandsOnFirstJoin) {
+                command = command.replaceAll("\\{name}", player.getName());
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
             }
         }
