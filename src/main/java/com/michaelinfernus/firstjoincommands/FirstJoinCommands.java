@@ -54,7 +54,7 @@ public final class FirstJoinCommands extends JavaPlugin implements Listener, Com
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0)
             return false;
-        if(args[0].equalsIgnoreCase("reload") || sender.hasPermission("firstjoincommand.reload")) {
+        if(args[0].equalsIgnoreCase("reload") || sender.hasPermission("firstjoincommands.reload")) {
             boolean success = loadConfig();
             if(success)
                 sender.sendMessage(ChatColor.GREEN + "Successfully reloaded config!");
