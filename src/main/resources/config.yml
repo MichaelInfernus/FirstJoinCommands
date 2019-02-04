@@ -1,0 +1,2 @@
+commandsOnFirstJoin:
+  - 'broadcast &dWelcome to the server, &b{name}&d!'

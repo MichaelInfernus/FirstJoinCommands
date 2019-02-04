@@ -1,0 +1,15 @@
+name: FirstJoinCommands
+version: ${project.version}
+main: com.michaelinfernus.firstjoincommands.FirstJoinCommands
+api-version: 1.13
+authors: [MichaelInfernus]
+description: Runs a set of commands for a player on their first join to the server
+commands:
+  FirstJoinCommand:
+    description: Reload the plugin config
+    aliases: [firstjoin, fjc]
+    usage: /fjc reload
+permissions:
+  firstjoincommand.reload:
+    default: op
+    description: Allows reloading of the config
