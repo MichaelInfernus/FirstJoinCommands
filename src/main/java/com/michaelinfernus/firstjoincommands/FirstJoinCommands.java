@@ -1,6 +1,7 @@
 package com.michaelinfernus.firstjoincommands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,11 +54,15 @@ public final class FirstJoinCommands extends JavaPlugin implements Listener, Com
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0)
             return false;
-        if(args[0].equalsIgnoreCase("reload") || sender.hasPermission("firstjoincommand.reload"))
-            loadConfig();
-        else
-            return false;
-        return true;
+        if(args[0].equalsIgnoreCase("reload") || sender.hasPermission("firstjoincommand.reload")) {
+            boolean success = loadConfig();
+            if(success)
+                sender.sendMessage(ChatColor.GREEN + "Successfully reloaded config!");
+            else
+                sender.sendMessage(ChatColor.RED + "Failed to reload config.");
+            return true;
+        }
+        return false;
     }
 
     @EventHandler
