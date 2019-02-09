@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.logging.Level;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","StringConcatenationInLoop"})
 public final class FirstJoinCommands extends JavaPlugin implements Listener, CommandExecutor {
 
     private List<String> commandsOnFirstJoin;
@@ -54,13 +54,62 @@ public final class FirstJoinCommands extends JavaPlugin implements Listener, Com
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0)
             return false;
-        if(args[0].equalsIgnoreCase("reload") || sender.hasPermission("firstjoincommands.reload")) {
+        if(args[0].equalsIgnoreCase("reload") && sender.hasPermission("firstjoincommands.admin")) {
             boolean success = loadConfig();
             if(success)
                 sender.sendMessage(ChatColor.GREEN + "Successfully reloaded config!");
             else
                 sender.sendMessage(ChatColor.RED + "Failed to reload config.");
             return true;
+        }
+        else if(args[0].equalsIgnoreCase("add") && sender.hasPermission("firstjoincommands.admin")) {
+            if(args.length >= 2) {
+                String commandToAdd = args[1];
+                if(args.length >= 3) {
+                    for(int i = 2; i < args.length; i++)
+                        commandToAdd += " " + args[i];
+
+                }
+                if(commandsOnFirstJoin.contains(commandToAdd)) {
+                    sender.sendMessage(ChatColor.YELLOW + "That command is already added.");
+                    return true;
+                }
+                commandsOnFirstJoin.add(commandToAdd);
+                this.getConfig().set("commandsOnFirstJoin", commandsOnFirstJoin);
+                this.saveConfig();
+                sender.sendMessage(ChatColor.GREEN + "Added first join command '" + commandToAdd + "' successfully.");
+                return true;
+            }
+            else {
+                sender.sendMessage(ChatColor.RED + "No command given to add.");
+                return true;
+            }
+        }
+        else if(args[0].equalsIgnoreCase("remove") && sender.hasPermission("firstjoincommands.admin")) {
+            if(args.length >= 2) {
+                String commandToAdd = args[1];
+                if(args.length >= 3) {
+                    for(int i = 2; i < args.length; i++)
+                        commandToAdd += " " + args[i];
+
+                }
+                if(!commandsOnFirstJoin.contains(commandToAdd)) {
+                    sender.sendMessage(ChatColor.RED + "That first join command does not exist.");
+                    return true;
+                }
+                for(int i = commandsOnFirstJoin.size() - 1; i >= 0; i--){
+                    if(commandsOnFirstJoin.get(i).equalsIgnoreCase(commandToAdd))
+                        commandsOnFirstJoin.remove(i);
+                }
+                this.getConfig().set("commandsOnFirstJoin", commandsOnFirstJoin);
+                this.saveConfig();
+                sender.sendMessage(ChatColor.GREEN + "Removed first join command '" + commandToAdd + "' successfully.");
+                return true;
+            }
+            else {
+                sender.sendMessage(ChatColor.RED + "No command given to add");
+                return true;
+            }
         }
         return false;
     }

@@ -10,6 +10,6 @@ commands:
     aliases: [firstjoin, fjc]
     usage: /fjc reload
 permissions:
-  firstjoincommands.reload:
+  firstjoincommands.admin:
     default: op
-    description: Allows reloading of the config
+    description: Allows admin usage of the plugin
